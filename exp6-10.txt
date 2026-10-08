@@ -1,0 +1,223 @@
+Yes. We can continue using the **same YouTube comments dataset** so that Experiments 06–10 also become components of your **YouTube Comment Sentiment & Trend Analyzer**.
+
+Here are the problem statements aligned with the experiment topics shown in your image.
+
+## Experiment 06 — POS Tagging
+
+**Topic:** Implement Different POS Taggers and Perform POS Tagging
+
+> **Problem Statement:** To implement different Part-of-Speech (POS) tagging techniques on YouTube comments and identify the grammatical categories of words such as nouns, verbs, adjectives, and adverbs to support linguistic analysis of audience feedback.
+
+Example:
+
+```text
+Comment:
+"The tutorial is extremely useful."
+
+The → DT
+tutorial → NN
+is → VBZ
+extremely → RB
+useful → JJ
+```
+
+This can help your project identify important **nouns, adjectives, and verbs** for keyword and topic analysis.
+
+---
+
+## Experiment 07 — Chunking & Feature Selection
+
+**Topic:** Perform Chunking by Analyzing the Importance of Selecting Proper Features for Training a Model and the Size of Training Data
+
+> **Problem Statement:** To perform chunking on YouTube comments by grouping related words into meaningful phrases and analyze the importance of selecting appropriate linguistic features and training data size for improving NLP model performance.
+
+Example:
+
+```text
+Comment:
+"The audio quality is very poor."
+
+Chunk:
+[The audio quality] → Noun Phrase
+[very poor]         → Adjective Phrase
+```
+
+This can help identify meaningful phrases such as:
+
+```text
+audio quality
+video editing
+content quality
+python tutorial
+```
+
+which are useful for your **trend and topic analysis**.
+
+---
+
+## Experiment 08 — Named Entity Recognition
+
+**Topic:** Named Entity Recognition (NER)
+
+> **Problem Statement:** To implement Named Entity Recognition on YouTube comments to identify and classify named entities such as persons, organizations, locations, products, and other relevant entities mentioned in audience feedback.
+
+Example:
+
+```text
+Comment:
+"I learned Python from this tutorial by Microsoft."
+
+Entities:
+
+Python     → Technology
+Microsoft  → Organization
+```
+
+For your project, NER could help answer:
+
+> **Which people, organizations, technologies, products, or places are viewers discussing?**
+
+This can be especially useful for **product reviews, technology videos, educational videos, and brand analysis**.
+
+---
+
+## Experiment 09 — Real-Time Text Similarity Recognizer
+
+> **Problem Statement:** To implement a real-time text similarity recognizer for YouTube comments to identify comments that have similar meanings or discuss similar topics, thereby reducing redundancy and improving audience feedback analysis.
+
+Example:
+
+```text
+Comment 1:
+"The audio quality is very poor."
+
+Comment 2:
+"The sound quality is bad."
+
+Comment 3:
+"I cannot hear the audio properly."
+```
+
+Although the words are different, they have similar meanings.
+
+The system can group them as:
+
+```text
+Topic:
+Audio Quality
+```
+
+This is useful for your project because thousands of YouTube comments may express the **same opinion using different words**.
+
+---
+
+## Experiment 10 — Word Sense Disambiguation using LSTM/GRU
+
+> **Problem Statement:** To implement Word Sense Disambiguation using an LSTM/GRU-based model on YouTube comments to determine the appropriate meaning of ambiguous words based on their surrounding context.
+
+For example, the word **"bank"** can have different meanings:
+
+```text
+Comment 1:
+"The bank should improve its mobile app."
+
+→ bank = financial institution
+```
+
+versus:
+
+```text
+Comment 2:
+"The video shows people sitting near the river bank."
+
+→ bank = side of a river
+```
+
+The LSTM/GRU model uses the **context surrounding the word** to determine its intended meaning.
+
+For your project, this can improve the understanding of comments where a word has multiple meanings.
+
+---
+
+# Final Experiments 01–10
+
+Now your entire practical sequence can be connected to the same project:
+
+| Experiment | NLP Concept                                | Application to Your YouTube Project                                     |
+| ---------- | ------------------------------------------ | ----------------------------------------------------------------------- |
+| **01**     | NLP Applications & Problem Formulation     | Define YouTube Comment Sentiment & Trend Analyzer                       |
+| **02**     | Tokenization & Filtration                  | Split and clean YouTube comments                                        |
+| **03**     | Stop-word Removal & Lemmatization/Stemming | Normalize comment text                                                  |
+| **04**     | Morphological Analysis & Word Generation   | Analyze word structure and related word forms                           |
+| **05**     | N-Gram Model                               | Identify frequent words and phrases                                     |
+| **06**     | POS Tagging                                | Identify nouns, verbs, adjectives, etc.                                 |
+| **07**     | Chunking & Feature Selection               | Extract meaningful phrases and select useful NLP features               |
+| **08**     | Named Entity Recognition                   | Identify people, organizations, products, technologies, locations, etc. |
+| **09**     | Real-Time Text Similarity                  | Group comments with similar meanings                                    |
+| **10**     | Word Sense Disambiguation using LSTM/GRU   | Determine the correct meaning of ambiguous words                        |
+
+### Overall project pipeline
+
+```text
+                 YouTube Comments
+                        ↓
+              ┌───────────────────┐
+              │ Experiment 02     │
+              │ Tokenization       │
+              │ + Filtration      │
+              └─────────┬─────────┘
+                        ↓
+              ┌───────────────────┐
+              │ Experiment 03     │
+              │ Stop Words        │
+              │ + Lemmatization   │
+              └─────────┬─────────┘
+                        ↓
+              ┌───────────────────┐
+              │ Experiment 04     │
+              │ Morphology        │
+              └─────────┬─────────┘
+                        ↓
+              ┌───────────────────┐
+              │ Experiment 05     │
+              │ N-Grams            │
+              └─────────┬─────────┘
+                        ↓
+              ┌───────────────────┐
+              │ Experiment 06     │
+              │ POS Tagging       │
+              └─────────┬─────────┘
+                        ↓
+              ┌───────────────────┐
+              │ Experiment 07     │
+              │ Chunking          │
+              └─────────┬─────────┘
+                        ↓
+              ┌───────────────────┐
+              │ Experiment 08     │
+              │ NER               │
+              └─────────┬─────────┘
+                        ↓
+              ┌───────────────────┐
+              │ Experiment 09     │
+              │ Text Similarity   │
+              └─────────┬─────────┘
+                        ↓
+              ┌───────────────────┐
+              │ Experiment 10     │
+              │ WSD LSTM/GRU      │
+              └─────────┬─────────┘
+                        ↓
+        ┌───────────────┼────────────────┐
+        ↓               ↓                ↓
+   Sentiment        Keywords          Topics
+    Analysis        Extraction       Detection
+        │               │                │
+        └───────────────┼────────────────┘
+                        ↓
+                 Summarization
+                        ↓
+                Streamlit Dashboard
+```
+
+**One important point:** Experiments 06–10 are now *related* to your project, but not all of them need to become major features in the final dashboard. Some can be implemented as NLP analysis modules used to enrich the main sentiment/trend pipeline. This keeps the project academically aligned without making the final application unnecessarily complicated.

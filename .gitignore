@@ -1,0 +1,8 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Trained Experiment 10 model, rebuilt on demand from WordNet.
+models/

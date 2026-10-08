@@ -1,0 +1,603 @@
+Yes. We can **add Experiment 04 and Experiment 05 directly into your YouTube Comment Sentiment & Trend Analyzer** without changing the main purpose of the project.
+
+Your current project already has preprocessing, sentiment analysis, keyword extraction, topic detection and summarization. 
+
+We will extend it like this:
+
+```text
+YouTube Comments
+       ↓
+Experiment 02
+Tokenization + Filtration
+       ↓
+Experiment 03
+Stop-word Removal + Lemmatization
+       ↓
+Experiment 04
+Morphological Analysis + Word Generation
+       ↓
+Experiment 05
+N-Gram Language Model
+       ↓
+ ┌─────┴─────────┐
+ ↓               ↓
+Sentiment     Keywords
+Analysis      & Topics
+ ↓               ↓
+ └───────┬───────┘
+         ↓
+   Summarization
+         ↓
+ Streamlit Dashboard
+```
+
+# Experiment 04 — Morphological Analysis & Word Generation
+
+## What we need to add
+
+The purpose of Experiment 04 is to analyze the **structure and forms of words** occurring in YouTube comments.
+
+For example, consider:
+
+```text
+"The viewers are watching amazing videos"
+```
+
+After morphological processing:
+
+```text
+viewers   → view + er + s
+watching  → watch + ing
+videos    → video + s
+amazing   → amaze + ing
+```
+
+The exact decomposition depends on the morphological tool/algorithm used.
+
+### How this helps your project
+
+It can help identify related word forms.
+
+For example:
+
+```text
+watch
+watching
+watched
+watches
+```
+
+These are different surface forms but are related to the same underlying concept.
+
+Similarly:
+
+```text
+tutorial
+tutorials
+```
+
+can be grouped around the concept **tutorial**.
+
+This is useful for your:
+
+* Keyword extraction
+* Trend detection
+* N-Gram analysis
+* Topic detection
+
+---
+
+# Add a Morphological Analysis Module
+
+Create:
+
+```text
+src/
+    morphology.py
+```
+
+The module can perform:
+
+```text
+Comment
+   ↓
+Tokenization
+   ↓
+POS / morphological information
+   ↓
+Base word
+   ↓
+Word forms
+   ↓
+Morphological information
+```
+
+For example, your system could produce:
+
+| Word      | Base/Lemma | POS                    | Form               |
+| --------- | ---------- | ---------------------- | ------------------ |
+| tutorials | tutorial   | Noun                   | Plural             |
+| watching  | watch      | Verb                   | Present participle |
+| videos    | video      | Noun                   | Plural             |
+| amazing   | amaze      | Adjective/related form | Derived            |
+
+This gives you a concrete output for **Experiment 04**.
+
+---
+
+# Word Generation
+
+We can also add a simple **word-generation component**.
+
+Suppose the system detects:
+
+```text
+tutorial
+```
+
+It can identify related forms such as:
+
+```text
+tutorials
+```
+
+For a word like:
+
+```text
+watch
+```
+
+related forms may include:
+
+```text
+watch
+watches
+watched
+watching
+```
+
+The generated/related forms can then be used during analysis.
+
+### Important
+
+For your practical, don't claim that this module is generating arbitrary English words using AI. It should be presented as **morphological word-form analysis/generation based on linguistic rules or available NLP tools**.
+
+---
+
+# How Experiment 04 fits the final project
+
+Instead of having:
+
+```text
+Keyword Extraction
+```
+
+we now have:
+
+```text
+Morphological Analysis
+        ↓
+Normalize related word forms
+        ↓
+Keyword Extraction
+```
+
+For example, without normalization:
+
+```text
+tutorial
+tutorials
+```
+
+might be counted separately.
+
+With morphological processing:
+
+```text
+tutorial
+tutorials
+       ↓
+tutorial
+```
+
+This can make keyword frequency more meaningful.
+
+---
+
+# Experiment 05 — N-Gram Language Model
+
+Now we'll add the second missing concept.
+
+## What is an N-Gram?
+
+An N-Gram represents a sequence of **N consecutive words**.
+
+### Unigram
+
+One word:
+
+```text
+python
+tutorial
+audio
+quality
+```
+
+### Bigram
+
+Two consecutive words:
+
+```text
+python tutorial
+audio quality
+video editing
+```
+
+### Trigram
+
+Three consecutive words:
+
+```text
+best python tutorial
+poor audio quality
+advanced video editing
+```
+
+---
+
+# Why N-Grams are useful in your project
+
+Your project wants to identify **trending topics and important phrases**.
+
+Individual keywords aren't always enough.
+
+Suppose comments contain:
+
+```text
+"audio quality is bad"
+
+"please improve audio quality"
+
+"audio quality needs improvement"
+```
+
+Individual keyword analysis might give:
+
+```text
+audio
+quality
+improve
+```
+
+But the **bigram model** can detect:
+
+```text
+audio quality
+```
+
+That's much more informative.
+
+Therefore:
+
+```text
+Keyword:
+audio
+
+N-Gram:
+audio quality
+```
+
+The N-Gram gives context.
+
+---
+
+# Add an N-Gram Module
+
+Create:
+
+```text
+src/ngram.py
+```
+
+The workflow becomes:
+
+```text
+Clean Comments
+      ↓
+Tokenized Comments
+      ↓
+Generate N-Grams
+      ↓
+Unigrams / Bigrams / Trigrams
+      ↓
+Count Frequencies
+      ↓
+Find Important Phrases
+```
+
+Example input:
+
+```text
+comment 1:
+"excellent python tutorial"
+
+comment 2:
+"best python tutorial"
+
+comment 3:
+"python tutorial is very useful"
+```
+
+### Unigrams
+
+```text
+python
+tutorial
+excellent
+best
+useful
+```
+
+### Bigrams
+
+```text
+python tutorial
+excellent python
+best python
+tutorial is
+very useful
+```
+
+### Trigrams
+
+```text
+excellent python tutorial
+best python tutorial
+python tutorial is
+```
+
+---
+
+# N-Gram output for your dashboard
+
+You can show:
+
+### Top Unigrams
+
+```text
+Python
+Tutorial
+AI
+Camera
+Editing
+```
+
+### Top Bigrams
+
+```text
+Python tutorial
+Audio quality
+Video editing
+Great explanation
+Advanced tutorial
+```
+
+### Top Trigrams
+
+```text
+best python tutorial
+poor audio quality
+advanced video tutorial
+```
+
+This makes your project much more interesting than simply showing word frequencies.
+
+---
+
+# Add N-Gram analysis to Trend Detection
+
+This is where Experiment 05 becomes directly relevant to your project's main objective.
+
+Your trend pipeline becomes:
+
+```text
+YouTube Comments
+       ↓
+Preprocessing
+       ↓
+Morphological Normalization
+       ↓
+N-Gram Generation
+       ↓
+Frequent Phrases
+       ↓
+Trending Discussions
+```
+
+For example:
+
+```text
+Top Bigram
+"audio quality"
+        ↓
+Many comments contain it
+        ↓
+Potential discussion trend
+        ↓
+Topic: Audio Quality
+```
+
+So Experiment 05 is no longer just a separate college practical — it becomes part of your **trend analysis functionality**.
+
+---
+
+# Updated Complete Architecture
+
+Your project can now have these modules:
+
+```text
+                    USER
+                      │
+                      ↓
+             YouTube Video URL
+                      │
+                      ↓
+              YouTube Data API
+                      │
+                      ↓
+                Raw Comments
+                      │
+                      ↓
+        ┌──────────────────────────┐
+        │   TEXT PREPROCESSING     │
+        │                          │
+        │ Tokenization             │
+        │ Filtration               │
+        │ Stop-word Removal        │
+        │ Lemmatization            │
+        └────────────┬─────────────┘
+                     ↓
+        ┌──────────────────────────┐
+        │ EXPERIMENT 04             │
+        │ Morphological Analysis    │
+        │ + Word Generation         │
+        └────────────┬─────────────┘
+                     ↓
+        ┌──────────────────────────┐
+        │ EXPERIMENT 05             │
+        │ N-Gram Language Model     │
+        │                            │
+        │ Unigram                   │
+        │ Bigram                    │
+        │ Trigram                   │
+        └────────────┬─────────────┘
+                     ↓
+          ┌──────────┼──────────┐
+          ↓          ↓          ↓
+     Sentiment    Keywords    Topics
+      Analysis    Extraction  Detection
+          │          │          │
+          └──────────┼──────────┘
+                     ↓
+                Summarization
+                     ↓
+              Analytics Engine
+                     ↓
+              Streamlit Dashboard
+```
+
+---
+
+# Updated Project Folder
+
+I recommend changing your project structure to:
+
+```text
+youtube-comment-analyzer/
+│
+├── app.py
+├── requirements.txt
+├── .env
+│
+├── data/
+│   ├── raw_comments.csv
+│   └── processed_comments.csv
+│
+├── src/
+│   ├── youtube_api.py
+│   ├── preprocessing.py
+│   ├── morphology.py        ← Experiment 04
+│   ├── ngram.py             ← Experiment 05
+│   ├── sentiment.py
+│   ├── keywords.py
+│   ├── topics.py
+│   └── summarizer.py
+│
+├── models/
+│
+└── notebooks/
+    ├── experiment_01.ipynb
+    ├── experiment_02.ipynb
+    ├── experiment_03.ipynb
+    ├── experiment_04.ipynb
+    └── experiment_05.ipynb
+```
+
+---
+
+# How all 5 experiments now map to your project
+
+| Experiment | Concept                                    | Implementation in your project                |
+| ---------- | ------------------------------------------ | --------------------------------------------- |
+| **01**     | NLP applications & problem formulation     | YouTube Comment Sentiment & Trend Analyzer    |
+| **02**     | Tokenization & Filtration                  | Clean and tokenize YouTube comments           |
+| **03**     | Stop-word Removal + Lemmatization/Stemming | Normalize comment text                        |
+| **04**     | Morphological Analysis + Word Generation   | Analyze word structure and related word forms |
+| **05**     | N-Gram Model                               | Find frequent phrases and discussion patterns |
+| —          | Sentiment Analysis                         | Positive / Negative / Neutral                 |
+| —          | Keyword Extraction                         | Important words                               |
+| —          | Topic Detection                            | Major discussion themes                       |
+| —          | Summarization                              | Overall audience feedback                     |
+| —          | Dashboard                                  | Streamlit visualization                       |
+
+Your original project already specifies the downstream NLP tasks of sentiment analysis, keyword extraction, topic detection and summarization. 
+
+---
+
+# What the final dashboard can show
+
+With these additions, your Streamlit dashboard can have:
+
+```text
+╔══════════════════════════════════════════╗
+║       YouTube Comment Analyzer            ║
+╠══════════════════════════════════════════╣
+║ YouTube URL                               ║
+║ [____________________________] [Analyze]  ║
+╠══════════════════════════════════════════╣
+║ Total Comments                            ║
+║ 5,000                                     ║
+╠══════════════════════════════════════════╣
+║ SENTIMENT                                 ║
+║ Positive 71% | Negative 18% | Neutral 11%║
+╠══════════════════════════════════════════╣
+║ TOP KEYWORDS                              ║
+║ Python | AI | Tutorial | Camera | Editing║
+╠══════════════════════════════════════════╣
+║ TOP BIGRAMS                               ║
+║ Audio Quality                             ║
+║ Python Tutorial                           ║
+║ Video Editing                             ║
+╠══════════════════════════════════════════╣
+║ TOP TRIGRAMS                              ║
+║ Best Python Tutorial                      ║
+║ Poor Audio Quality                        ║
+╠══════════════════════════════════════════╣
+║ MORPHOLOGICAL ANALYSIS                    ║
+║ watching → watch                          ║
+║ tutorials → tutorial                      ║
+║ videos → video                            ║
+╠══════════════════════════════════════════╣
+║ DETECTED TOPICS                           ║
+║ • Audio Quality                           ║
+║ • Video Editing                           ║
+║ • Content Quality                         ║
+╠══════════════════════════════════════════╣
+║ AUDIENCE SUMMARY                          ║
+║ Most viewers appreciated...                ║
+╚══════════════════════════════════════════╝
+```
+
+## The important change
+
+Previously your project was essentially:
+
+**YouTube comments → preprocessing → sentiment/keywords/topics → summary**
+
+Now it becomes:
+
+**YouTube comments → preprocessing → morphological analysis → N-Grams → sentiment/keywords/topics → summary**
+
+That means **Experiments 04 and 05 are genuinely part of your project**, rather than being unrelated practical experiments.
+
+And N-Grams have a particularly clear connection to your project's **"Trend Analyzer"** component because they allow you to detect frequently occurring multi-word phrases such as **"audio quality"**, **"python tutorial"**, and **"video editing."**

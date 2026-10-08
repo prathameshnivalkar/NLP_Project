@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Signal Lab — YouTube comment sentiment and trend analyzer" />
+    <title>Signal Lab · YouTube Comment Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <div class="floating-cube"></div>
+    <div class="floating-cube"></div>
+    <div class="floating-cube"></div>
+    <div class="floating-cube"></div>
+    <div class="floating-cube"></div>
+
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="Signal Lab home">
+          <span class="brand-mark"><span></span><span></span><span></span></span>
+          <span>signal<span class="brand-slash">/</span>lab</span>
+        </a>
+        <nav class="topnav" aria-label="Primary navigation">
+          <a class="nav-link active" href="#overview">Overview</a>
+          <a class="nav-link" href="#method">Method</a>
+          <a class="nav-link" href="#lab">Lab</a>
+          <a class="nav-link" href="#deep-lab">Deep lab</a>
+          <a class="nav-link" href="#comments">Comments</a>
+        </nav>
+        <div class="topbar-actions">
+          <span class="live-status"><span class="status-dot"></span>Workspace live</span>
+          <button class="icon-button" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Toggle theme">
+            <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path></svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 14.6A8.5 8.5 0 0 1 9.4 3.6 8.5 8.5 0 1 0 20.4 14.6Z"></path></svg>
+          </button>
+          <button class="avatar-button" type="button" aria-label="Open profile menu">AL</button>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero-section reveal" aria-labelledby="page-title">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="eyebrow-line"></span>NLP signal engine <span class="eyebrow-version">v0.8.4</span></div>
+            <h1 id="page-title">Turn comment noise<br /><em>into a signal.</em></h1>
+            <p class="hero-description">Read the room in seconds. Analyze audience sentiment, surface recurring topics, and make your next creative decision with confidence.</p>
+          </div>
+          <div class="hero-orbit" aria-hidden="true">
+            <div class="orbit-scene">
+              <div class="orbit-ring ring-one"></div>
+              <div class="orbit-ring ring-two"></div>
+              <div class="orbit-core"><span class="core-pulse"></span><span class="core-label">LISTEN<br />BETTER</span></div>
+              <span class="orbit-chip chip-one">sentiment</span>
+              <span class="orbit-chip chip-two">topics</span>
+              <span class="orbit-chip chip-three">summary</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="analyzer-card reveal delay-one" aria-labelledby="analyzer-heading">
+          <div class="card-topline"><span class="mono-label">01 / INPUT SOURCE</span><span class="demo-note"><span class="spark-dot"></span>Demo data ready</span></div>
+          <div class="analyzer-content">
+            <div>
+              <h2 id="analyzer-heading">Drop in a YouTube link.</h2>
+              <p>We'll fetch the conversation, clean the language, then map the audience signal.</p>
+            </div>
+            <form id="analyze-form" class="url-form">
+              <label class="sr-only" for="youtube-url">Public YouTube video URL</label>
+              <div class="url-input-wrap"><span class="input-prefix">↗</span><input id="youtube-url" type="url" value="https://www.youtube.com/watch?v=signal-demo" placeholder="https://youtube.com/watch?v=..." autocomplete="url" required /></div>
+              <button class="primary-button" type="submit"><span id="button-label">Analyze comments</span><span class="button-arrow">↗</span></button>
+            </form>
+          </div>
+          <div class="progress-line" id="analysis-progress" aria-hidden="true"><span></span></div>
+          <p class="form-message" id="form-message" role="status"></p>
+        </section>
+
+        <section class="workspace-header reveal delay-two" id="overview">
+          <div><div class="eyebrow"><span class="eyebrow-line"></span>Audience overview</div><h2>One view. <span>Every signal.</span></h2></div>
+          <div class="workspace-meta"><span class="analyzed-time" id="analyzed-time">Last analyzed · just now</span><button class="ghost-button" id="export-button" type="button">Export snapshot <span>↓</span></button></div>
+        </section>
+
+        <section class="metric-grid reveal delay-three" aria-label="Summary metrics">
+          <article class="metric-card metric-primary"><div class="metric-heading"><span class="mono-label">COMMENTS ANALYZED</span><span class="trend-up">+12.8%</span></div><strong class="metric-value count-value" data-target="4728">0</strong><div class="metric-foot"><span>across this video</span><span class="metric-spark lime-spark">↗</span></div></article>
+          <article class="metric-card"><div class="metric-heading"><span class="mono-label">POSITIVE SIGNAL</span><span class="signal-dot lime-dot"></span></div><strong class="metric-value"><span id="positive-value">68</span><small>%</small></strong><div class="metric-foot"><span id="positive-count">3,216 comments</span><span class="mini-bar"><i style="width: 0%"></i></span></div></article>
+          <article class="metric-card"><div class="metric-heading"><span class="mono-label">AVG. ENGAGEMENT</span><span class="trend-up">+2.1%</span></div><strong class="metric-value">8.4<small>x</small></strong><div class="metric-foot"><span>vs. channel average</span><span class="metric-spark blue-spark">↗</span></div></article>
+          <article class="metric-card"><div class="metric-heading"><span class="mono-label">TOPIC CLUSTERS</span><span class="signal-dot violet-dot"></span></div><strong class="metric-value" id="topic-value">4</strong><div class="metric-foot"><span>dominant conversations</span><span class="metric-spark violet-spark">✦</span></div></article>
+        </section>
+
+        <section class="dashboard-grid reveal delay-four">
+          <article class="panel sentiment-panel">
+            <div class="panel-heading"><div><span class="mono-label">SENTIMENT MIX</span><h3>How the room feels</h3></div><button class="panel-menu" type="button" aria-label="Sentiment panel options">•••</button></div>
+            <div class="sentiment-layout">
+              <div class="donut-wrap"><div class="donut-chart" id="donut-chart"><div class="donut-center"><strong id="donut-value">68%</strong><span>positive</span></div></div><div class="donut-caption"><span class="signal-dot lime-dot"></span><span>Audience warmth</span></div></div>
+              <div class="legend-list" id="sentiment-legend"></div>
+            </div>
+            <div class="panel-insight"><span class="insight-icon">↗</span><p><strong>Strong positive lean.</strong> The audience is responding to clarity and practical examples.</p></div>
+          </article>
+
+          <article class="panel trend-panel">
+            <div class="panel-heading"><div><span class="mono-label">SIGNAL OVER TIME</span><h3>Conversation velocity</h3></div><div class="select-pill"><span>Last 24 hours</span><span>⌄</span></div></div>
+            <div class="chart-summary"><strong id="trend-score">+11.2%</strong><span>positive lift <span class="trend-up">↗</span></span></div>
+            <div class="line-chart-wrap"><svg class="line-chart" id="line-chart" viewBox="0 0 720 238" preserveAspectRatio="none" aria-label="Conversation velocity chart" role="img"><defs><linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--accent)" stop-opacity=".25"/><stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs><path class="chart-grid-line" d="M0 42H720M0 96H720M0 150H720M0 204H720"></path><path class="chart-area" id="chart-area" d=""></path><path class="chart-line" id="chart-line" d=""></path><g id="chart-points"></g></svg><div class="chart-labels" id="chart-labels"></div></div>
+          </article>
+
+          <article class="panel topics-panel" id="method">
+            <div class="panel-heading"><div><span class="mono-label">TOPIC CLUSTERS</span><h3>What they're saying about</h3></div><button class="round-arrow" type="button" aria-label="View all topics">↗</button></div>
+            <div class="topic-list" id="topic-list"></div>
+            <div class="topic-footer"><span class="signal-dot violet-dot"></span><span>Clusters detected via keyword co-occurrence</span></div>
+          </article>
+
+          <article class="panel keyword-panel">
+            <div class="panel-heading"><div><span class="mono-label">KEYWORD PULSE</span><h3>Words with weight</h3></div><span class="mono-label">TOP 08</span></div>
+            <div class="keyword-cloud" id="keyword-cloud"></div>
+            <div class="keyword-footer"><span>Weighted by frequency + sentiment</span><span class="pulse-bars"><i></i><i></i><i></i><i></i><i></i></span></div>
+          </article>
+        </section>
+
+        <section class="workspace-header reveal" id="lab">
+          <div><div class="eyebrow"><span class="eyebrow-line"></span>Language lab · experiments 04 &amp; 05</div><h2>Words, <span>unpacked.</span></h2></div>
+          <div class="workspace-meta"><span class="analyzed-time" id="lab-note">Awaiting a run</span><span class="lab-badge">EXP 04 · EXP 05</span></div>
+        </section>
+
+        <section class="lab-grid reveal delay-one" aria-label="Morphological and n-gram analysis">
+          <article class="panel morphology-panel">
+            <div class="panel-heading"><div><span class="mono-label">EXP 04 · MORPHOLOGICAL ANALYSIS</span><h3>Root and affix</h3></div><span class="mono-label" id="morphology-count">—</span></div>
+            <p class="panel-lede">Every surface form in the comments, split into root plus affix using WordNet lemmas and rule-based fallback.</p>
+            <div class="affix-stats" id="affix-stats"></div>
+            <div class="morph-table-wrap">
+              <table class="morph-table">
+                <thead><tr><th scope="col">Form</th><th scope="col">Root</th><th scope="col">Affixes</th><th scope="col">POS</th><th scope="col" class="num">Hits</th></tr></thead>
+                <tbody id="morphology-rows"></tbody>
+              </table>
+            </div>
+            <p class="empty-note" id="morphology-empty" hidden>No morphological forms in this sample.</p>
+            <div class="panel-insight"><span class="insight-icon">↗</span><p id="morphology-insight"><strong>Normalization at work.</strong> Inflected forms collapse onto their root before keyword extraction.</p></div>
+          </article>
+
+          <article class="panel generator-panel">
+            <div class="panel-heading"><div><span class="mono-label">EXP 04 · WORD GENERATION</span><h3>Build the paradigm</h3></div><span class="mono-label">RULE-BASED</span></div>
+            <p class="panel-lede">Type any English word to see how it inflects across its word class.</p>
+            <form class="generator-form" id="generator-form">
+              <label class="sr-only" for="generator-input">Word to generate forms for</label>
+              <div class="url-input-wrap"><span class="input-prefix">⌁</span><input id="generator-input" type="text" value="watching" placeholder="watching" autocomplete="off" spellcheck="false" maxlength="40" /></div>
+              <button class="primary-button" type="submit"><span>Generate</span><span class="button-arrow">↗</span></button>
+            </form>
+            <p class="form-message" id="generator-message" role="status"></p>
+            <div class="generator-result" id="generator-result" hidden>
+              <div class="generator-head"><span class="generator-word" id="generator-word"></span><span class="generator-decomp" id="generator-decomposition"></span></div>
+              <div class="form-chips" id="generator-forms"></div>
+              <p class="generator-note" id="generator-note"></p>
+            </div>
+          </article>
+
+          <article class="panel ngram-panel">
+            <div class="panel-heading"><div><span class="mono-label">EXP 05 · N-GRAM MODEL</span><h3>Phrases, not just words</h3></div><span class="mono-label" id="ngram-coverage">—</span></div>
+            <p class="panel-lede">Sequences of adjacent words. Bigrams and trigrams recover the phrases that unigram counts miss.</p>
+            <div class="ngram-columns">
+              <div class="ngram-column"><span class="mono-label">BIGRAMS</span><div class="ngram-list" id="bigram-list"></div></div>
+              <div class="ngram-column"><span class="mono-label">TRIGRAMS</span><div class="ngram-list" id="trigram-list"></div></div>
+            </div>
+            <p class="empty-note" id="ngram-empty" hidden>No repeated phrases in this sample.</p>
+          </article>
+
+          <article class="panel trend-phrase-panel">
+            <div class="panel-heading"><div><span class="mono-label">EXP 05 · PHRASE TRENDS</span><h3>What is rising</h3></div><span class="mono-label" id="trend-phrase-note">—</span></div>
+            <p class="panel-lede">Leading phrases bucketed over comment time, with the sentiment attached to each mention.</p>
+            <div class="phrase-trend-list" id="phrase-trend-list"></div>
+            <p class="empty-note" id="trend-empty" hidden>Not enough timestamped comments to chart a trend.</p>
+          </article>
+        </section>
+
+        <section class="workspace-header reveal" id="deep-lab">
+          <div><div class="eyebrow"><span class="eyebrow-line"></span>Deep lab &middot; experiments 06 &ndash; 10</div><h2>Meaning, <span>resolved.</span></h2></div>
+          <div class="workspace-meta"><span class="analyzed-time" id="deep-lab-note">Awaiting a run</span><span class="lab-badge">EXP 06 &ndash; EXP 10</span></div>
+        </section>
+
+        <section class="lab-grid reveal delay-one" aria-label="Syntactic and semantic analysis">
+          <article class="panel pos-panel">
+            <div class="panel-heading"><div><span class="mono-label">EXP 06 &middot; POS TAGGING</span><h3>Three taggers, compared</h3></div><span class="mono-label" id="pos-tokens">&mdash;</span></div>
+            <p class="panel-lede">Part-of-speech decided three ways: NLTK's averaged perceptron, a rule tagger, and a hybrid. Where they agree, the label is safe.</p>
+            <div class="pos-columns">
+              <div class="pos-column"><span class="mono-label">TAG DISTRIBUTION</span><div class="pos-list" id="pos-distribution"></div></div>
+              <div class="pos-column"><span class="mono-label">TAGGERS COMPARED</span><div class="pos-list" id="pos-compare"></div></div>
+            </div>
+            <div class="affix-stats" id="pos-keywords"></div>
+            <div class="tag-sample" id="pos-sentence"></div>
+          </article>
+
+          <article class="panel chunk-panel">
+            <div class="panel-heading"><div><span class="mono-label">EXP 07 &middot; CHUNKING</span><h3>Grammar groups</h3></div><span class="mono-label" id="chunk-count">&mdash;</span></div>
+            <p class="panel-lede">A small grammar pulls noun, verb and adjective phrases out of the sentence stream.</p>
+            <div class="pos-list" id="chunk-types"></div>
+            <p class="empty-note" id="chunk-empty" hidden>No phrases matched the grammar in this sample.</p>
+            <div class="tag-sample" id="chunk-example"></div>
+          </article>
+
+          <article class="panel entity-panel">
+            <div class="panel-heading"><div><span class="mono-label">EXP 08 &middot; NAMED ENTITIES</span><h3>Who and what</h3></div><span class="mono-label" id="entity-count">&mdash;</span></div>
+            <p class="panel-lede">People, organisations, technologies, products and places, found with a domain gazetteer, name patterns and context clues.</p>
+            <div class="pos-list" id="entity-types"></div>
+            <div class="entity-chips" id="entity-chips"></div>
+            <p class="empty-note" id="entity-empty" hidden>No named entities in this sample.</p>
+          </article>
+
+          <article class="panel study-panel">
+            <div class="panel-heading"><div><span class="mono-label">EXP 07 &middot; FEATURE SELECTION</span><h3>What actually helps</h3></div><span class="mono-label" id="study-docs">&mdash;</span></div>
+            <p class="panel-lede">Does sentiment classification improve with POS tags, chunks, or both? Scored against the pipeline's own labels, not a synthetic target.</p>
+            <div class="study-chart" id="study-chart"></div>
+            <p class="empty-note" id="study-empty" hidden>A larger sample is needed to compare feature sets.</p>
+            <div class="panel-insight" id="study-insight-wrap"><span class="insight-icon">&#8599;</span><p id="study-insight"><strong>Awaiting data.</strong> The study needs at least twelve distinct polarised comments.</p></div>
+          </article>
+
+          <article class="panel similarity-panel">
+            <div class="panel-heading"><div><span class="mono-label">EXP 09 &middot; SIMILARITY</span><h3>Same point, new words</h3></div><span class="mono-label" id="similarity-gain">&mdash;</span></div>
+            <p class="panel-lede">Comments grouped by meaning, so a point repeated fifty times is counted once.</p>
+            <div class="affix-stats" id="similarity-stats"></div>
+            <div class="discussion-list" id="similarity-rows"></div>
+            <p class="empty-note" id="similarity-empty" hidden>No repeated discussion detected in this sample.</p>
+          </article>
+
+          <article class="panel wsd-panel">
+            <div class="panel-heading"><div><span class="mono-label">EXP 10 &middot; WORD SENSE</span><h3>Which "bank"?</h3></div><span class="mono-label" id="wsd-engine">&mdash;</span></div>
+            <p class="panel-lede">A GRU reads the words around an ambiguous word and picks its WordNet sense. Trained on WordNet definitions, sharpened by domain cues.</p>
+            <div class="wsd-list" id="wsd-rows"></div>
+            <p class="empty-note" id="wsd-empty" hidden>No ambiguous words in this sample.</p>
+            <div class="panel-insight"><span class="insight-icon">&#9432;</span><p id="wsd-note"><strong>Sense matters for sentiment.</strong> "app" in "bank app" and "app" as a verb point opposite ways.</p></div>
+          </article>
+        </section>
+          <article class="panel summary-panel"><div class="panel-heading"><div><span class="mono-label">AI SYNTHESIS</span><h3>The short version</h3></div><span class="ai-badge">✦ GENERATED</span></div><p class="summary-text" id="summary-text">Viewers are responding strongly to the practical walkthrough and the clarity of the examples. The clearest opportunity is to explain pricing and expose more advanced automation controls in a follow-up.</p><div class="summary-footer"><div class="author-chip"><span class="mini-avatar">SL</span><span>Signal Lab model <small>· analysis complete</small></span></div><button class="text-button" id="copy-summary" type="button">Copy summary <span>↗</span></button></div></article>
+          <article class="panel comments-panel"><div class="panel-heading"><div><span class="mono-label">COMMENT STREAM</span><h3>Fresh from the room</h3></div><div class="stream-controls"><button class="filter-button active" data-filter="all" type="button">All</button><button class="filter-button" data-filter="positive" type="button">Positive</button><button class="filter-button" data-filter="negative" type="button">Critical</button></div></div><div class="comments-list" id="comments-list"></div><button class="load-button" id="load-more" type="button">Load more comments <span>↓</span></button></article>
+        </section>
+      </main>
+
+      <footer class="footer"><span>signal<span class="brand-slash">/</span>lab · audience intelligence</span><span>Built for curious teams <span class="footer-mark">◒</span></span></footer>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
